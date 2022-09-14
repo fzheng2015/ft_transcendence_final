@@ -1,0 +1,19 @@
+<div class="center">
+        <mat-card fxLayout="column" fxLayoutAlign="stretch center" fxLayoutGap="1rem">
+            <mat-card-title>Google Authenticator</mat-card-title>
+            <mat-form-field appearance="outline">
+                <input matInput
+                    class="text"
+                    type="text"
+                    placeholder="Please Enter Your Tfa Code"
+                    [(ngModel)]="tfaCode"
+                    maxlength="12"
+                    autocomplete="off"
+                    >
+            </mat-form-field>
+            <div fxLayout="row" fxLayoutGap="1rem">
+                <button mat-raised-button color="primary" (click)="submitTfaCode()">Submit</button>
+            </div>
+        </mat-card>
+        <!-- <div><br><a mat-raised-button  color="primary" (click)="openDialog()" >Regenerate QR Code</a></div> -->
+</div>

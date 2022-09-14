@@ -1,0 +1,19 @@
+<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+    <span>ft_transcendence</span>
+    <span class="example-spacer"></span>
+    <a mat-icon-button (click)="onGameClick()"color="primary" class="example-icon" aria-label="Play" #tooltip="matTooltip" matTooltip="Play Pong">
+        <mat-icon>play_arrow</mat-icon>
+    </a>
+    <a mat-icon-button (click)="onChatClick()" class="example-icon" aria-label="Chat" #tooltip="matTooltip" matTooltip="Chat">
+        <mat-icon>chat</mat-icon>
+    </a>
+    <button mat-icon-button (click)="onUsersClick()" class="example-icon" aria-label="Profile" #tooltip="matTooltip" matTooltip="Users">
+        <mat-icon>group</mat-icon>
+    </button >
+    <button mat-icon-button (click)="onProfileClick()" class="example-icon" aria-label="Profile" #tooltip="matTooltip" matTooltip="Profile">
+        <mat-icon>person</mat-icon>
+    </button >
+    <button *ngIf="isLoggedIn()" mat-icon-button (click)="onLogoutClick()" class="example-icon" color="primary" #tooltip="matTooltip" matTooltip="Logout">
+        <mat-icon>lock</mat-icon>
+    </button >
+</mat-toolbar>

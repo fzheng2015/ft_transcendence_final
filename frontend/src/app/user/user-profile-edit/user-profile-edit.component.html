@@ -1,0 +1,33 @@
+
+<div class="center">
+    <div class="user-profile-container">
+        <mat-card fxLayout="column" fxLayoutAlign="stretch center" fxLayoutGap="1rem">
+            <mat-card-title>Edit profile</mat-card-title>
+            <mat-form-field appearance="outline">
+                <mat-label>New name</mat-label>
+                <input matInput type="text" placeholder="{{user.name}}" [formControl]="name">
+            </mat-form-field>
+            <p>Upload avatar</p>
+            <input #avatarInput type="file" accept=".png, .jpg, .jpeg" class="file-input" (change)="onNewAvatarSelected(avatarInput.files)">
+            <div fxLayout="row" fxLayoutGap="1rem">
+                <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+                <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+            </div>
+        </mat-card>
+        
+        <mat-card fxLayout="column" fxLayoutAlign="stretch center" fxLayoutGap="1rem">
+        <mat-card-title>Set Two Factor Authentication</mat-card-title>
+            <em *ngIf="!isTfaChecked">Turn Tfa On or generate new Tfa QR Code</em>
+            <div>
+                <br>
+                <div fxLayout="row" fxLayoutGap="1rem">
+                <button *ngIf="!isTfaChecked" mat-raised-button color="primary" (click)="openDialog()">Generate new Tfa Qr Code</button>
+                <mat-slide-toggle [(ngModel)]="isTfaChecked" color="primary" (change)="switchTfa()">Tfa {{isTfaChecked? 'On': 'Off'}}</mat-slide-toggle>
+                <button *ngIf="!isTfaChecked" mat-raised-button color="warn" (click)="rmQrCode()">Remove the Tfa Qr Code</button>
+                </div>
+                <div>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+.center {
+    max-width: 1000px;
+    width: 98%;
+    margin: 20px auto;
+    background: black;
+}
+
+.match {
+    margin-bottom: 1em;
+}
+
+.match-element {
+    /* color: white; */
+    margin: 0em;
+}

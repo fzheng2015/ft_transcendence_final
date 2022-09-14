@@ -1,0 +1,24 @@
+
+<div class="center">
+    <mat-card>
+        <mat-card-title>Ladder List</mat-card-title>
+        <div fxLayout="row" fxLayoutAlign="space-around center" >
+            <h2>Ranking</h2>
+            <h2>Avatar</h2>
+            <h2>Name</h2>
+            <h2>Points</h2>
+        </div>
+        <div *ngFor="let ladder of ladderList; let i=index">
+            <mat-card style="background-color: #3f51b5;" class="match" [ngClass]="{'name': ladder.id === userId}">
+                <div fxLayout="row" fxLayoutAlign="stretch center" fxLayoutGap="0px grid">
+                    <h2 class="match-element" fxFlex="25%" style="text-align:center;">{{ranking[i]}}</h2>
+                    <h2 fxFlex="9%"></h2>
+                    <img mat-card-sm-image src={{getPlayerAvatar(ladder)}} >
+                    <h2 class="match-element" fxFlex="51%" style="text-align:center;">{{ladder.name}}</h2>
+                    <h2 fxFlex="3%"></h2>
+                    <h2 class="match-element" fxFlex="12%" style="text-align:start;">{{ladder.win}}</h2>
+                </div>
+            </mat-card>
+        </div>
+    </mat-card>
+</div>

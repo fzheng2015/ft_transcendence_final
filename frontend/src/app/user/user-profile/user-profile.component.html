@@ -1,0 +1,119 @@
+<!--
+Info:
+    - Main info:
+        - 42 username
+        - website username
+        - picture
+        - status
+    - Security
+        - two-factor authentication
+    - Stats:
+        - Win/Loss ratio
+        - ELO graph (last month)
+    - Match history
+    - Friends
+-->
+<div class="center">
+    <div class="user-profile-container" fxLayout="row wrap" fxLayoutGap="10px grid" fxLayout.xs="column"
+        fxLayoutAlign="stretch stretch">
+        <div fxFlex="calc(25%)">
+            <mat-card class="profile-box" fxLayout="column" fxLayoutAlign="stretch stretch">
+                <img mat-card-image class="profile-pic" src={{avatarUrl}} alt="Photo of {{user.name}}">
+                <button *ngIf="idMatches" class="edit-button" mat-icon-button (click)="onProfileEdit()">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <mat-card-header>
+                    <mat-card-title>{{user.name}}
+                        <mat-icon class="status" *ngIf="isStatusPlay(user.id)" fontIcon="play_circle" color="primary">
+                        </mat-icon>
+                        <mat-icon class="status" *ngIf="!isStatusPlay(user.id) && isStatusConnected(user.id)"
+                            fontIcon="check_circle" color="primary"></mat-icon>
+                        <mat-icon class="status" *ngIf="!isStatusPlay(user.id) && ! isStatusConnected(user.id)"
+                            fontIcon="cancel" color="warn"></mat-icon>
+                    </mat-card-title>
+                    <mat-card-subtitle>{{user.username42}}</mat-card-subtitle>
+                </mat-card-header>
+                <button *ngIf="isPlaying()" mat-raised-button color="primary" (click)="watchGame()">Watch game</button>
+            </mat-card>
+        </div>
+
+        <div fxFlex="calc(75%)">
+            <mat-card fxLayout="column" fxLayoutAlign="space-between" fxFlex="100%">
+                <div>
+                    <mat-card-title>Stats</mat-card-title>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                    <div *ngFor="let stats of userStats" fxLayout="row" fxLayoutAlign="space-around">
+                        <div>
+                            <h2 style="text-align: center;">{{getModeString(stats.mode)}}</h2>
+                            <h4 style="text-align: center;">Win/Loss</h4>
+                            <h2 style="text-align: center;">{{stats.wins}}/{{stats.losses}}</h2>
+                        </div>
+                    </div>
+                </div>
+                <button class="name" mat-raised-button color="primary" style="width: 100%;"
+                    (click)="onMatchHistoryLink()">See match
+                    history</button>
+            </mat-card>
+        </div>
+
+        <div fxFlex="100">
+            <mat-card>
+                <mat-card-title>Friends</mat-card-title>
+                <div *ngIf="friends" class="user-container" fxLayout="row wrap" fxLayoutGap="10px grid">
+                    <div *ngFor="let friend of friends" fxFlex="25" fxFlex.md="33" fxFlex.sm="50" fxFlex.xs="100">
+                        <mat-card class="user-card">
+                            <mat-card-header>
+                                <img mat-card-avatar src="{{userService.selectAvatarUrl(friend)}}"
+                                    [routerLink]="['/user', friend.id]">
+                                <mat-card-title [routerLink]="['/user', friend.id]">{{friend.name}}
+                                    <mat-icon class="status" *ngIf="isStatusPlay(friend.id)" fontIcon="play_circle"
+                                        color="primary"></mat-icon>
+                                    <mat-icon class="status"
+                                        *ngIf="!isStatusPlay(friend.id) && isStatusConnected(friend.id)"
+                                        fontIcon="check_circle" color="primary"></mat-icon>
+                                    <mat-icon class="status"
+                                        *ngIf="!isStatusPlay(friend.id) && ! isStatusConnected(friend.id)"
+                                        fontIcon="cancel" color="warn"></mat-icon>
+                                </mat-card-title>
+                                <mat-card-subtitle>{{friend.username42}}</mat-card-subtitle>
+                            </mat-card-header>
+                            <mat-card-actions *ngIf="isProfileTheUser()" align="end">
+                                <button mat-icon-button *ngIf="!isFriend(friend.id)" (click)="addFriend(friend.id)"
+                                    [disabled]="friend.id == auth.getId()" matTooltip="Add friend">
+                                    <mat-icon>person_add</mat-icon>
+                                </button>
+                                <button mat-icon-button *ngIf="isFriend(friend.id)" (click)="removeFriend(friend.id)"
+                                    [disabled]="friend.id == auth.getId()" matTooltip="Remove friend">
+                                    <mat-icon>person_remove</mat-icon>
+                                </button>
+                            </mat-card-actions>
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+
+        <div fxFlex="100">
+            <mat-card fxLayout="column" fxLayoutAlign="space-between" fxFlex="100%">
+                <mat-card-title>Ladder</mat-card-title>
+                <div fxLayout="row" fxLayoutAlign="space-around center">
+                    <h2>Ranking</h2>
+                    <h2>Points</h2>
+                </div>
+                <mat-card style="background-color: #3f51b5; margin-bottom: 0.5em;">
+                    <div fxLayout="row" fxLayoutAlign="space-around center" style="color: white;">
+                        <h2>{{ranking}}</h2>
+                        <h2 *ngIf="!idMatches">{{user.name}}</h2>
+                        <h2>{{user.win}}</h2>
+                    </div>
+                </mat-card>
+                <br>
+                <button class="name" mat-raised-button color="primary" style="width: 100%;"
+                    (click)="onladderListLink()">
+                    Check Ladder
+                </button>
+            </mat-card>
+        </div>
+    </div>
+</div>

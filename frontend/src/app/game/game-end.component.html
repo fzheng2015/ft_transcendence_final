@@ -1,0 +1,26 @@
+<div>
+    <div>
+        <mat-card-title>Final Score</mat-card-title>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between stretch"> 
+        <div fxLayout="column" fxLayoutAlign="center center">
+            <h2>{{ player1name }} </h2>
+            <h2>{{matchResult.scorePlayer1 > matchResult.scorePlayer2 ? 'WIN' : 'LOOSE'}}</h2>
+            <h2>{{matchResult.scorePlayer1}}</h2>
+        <!-- <div fxLayout="column" fxLayoutAlign="center center"> -->
+            <!-- <h2>POINTS</h2> -->
+            <!-- <br><br><br> -->
+        </div>
+        <div fxLayout="column" fxLayoutAlign="center center">
+            <h2> {{ player2name }} </h2>
+            <h2>{{matchResult.scorePlayer2 > matchResult.scorePlayer1 ? 'WIN' : 'LOOSE'}}</h2>
+            <h2>{{matchResult.scorePlayer2}}</h2>
+        </div>
+    </div>
+    <div>
+        <div fxLayout="row" fxLayoutGap="1rem">
+            <button mat-raised-button color="primary" (click)="backWaitList()">Go to Lobby</button>
+            <button mat-raised-button color="primary" (click)="backHome()">Go to Home</button>
+        </div>
+    </div>
+</div>

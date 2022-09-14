@@ -1,0 +1,40 @@
+.center {
+    max-width: 1400px;
+    width: 100%;
+    margin: 10px auto;
+}
+
+.chat-container {
+    height: 100%;
+}
+
+.conversation-content {
+    max-height: 100%;
+}
+
+.conversation-list, .conversation-actions, .mat-divider, .users-in-conv{
+    margin-bottom: 0.5rem;
+}
+
+.messages {
+}
+
+.message {
+}
+
+.message button {
+    margin: 0;
+}
+
+.mat-list-item-content {
+    flex-direction: column !important;
+}
+
+.invite-buttons {
+    padding: 0 1rem 0 1rem;
+}
+
+button {
+    margin-bottom: 0.5rem;
+    width: 100%;
+}

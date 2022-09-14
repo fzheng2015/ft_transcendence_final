@@ -1,0 +1,15 @@
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+.center-center {
+    max-width: 1000px;
+    width: 98%;
+    margin: 10px auto;
+}
+
+.text {
+    text-align: center;
+}

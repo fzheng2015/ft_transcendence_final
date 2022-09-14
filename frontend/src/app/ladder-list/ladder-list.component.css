@@ -1,0 +1,23 @@
+.center {
+    max-width: 1000px;
+    width: 98%;
+    margin: 10px auto;
+}
+
+.match {
+    margin-bottom: 1em;
+    color: white;
+}
+
+.match-element {
+    color: white;
+    margin: 0em;
+}
+
+.mat-card-sm-image {
+    border-radius: 5em;
+}
+
+.name {
+    outline: 6px solid rgb(157, 73, 236);
+}

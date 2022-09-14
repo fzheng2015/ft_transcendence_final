@@ -1,0 +1,15 @@
+.center {
+    max-width: 1000px;
+    width: 98%;
+    margin: 10px auto;
+}
+
+.mat-card {
+    margin: 1rem;
+}
+
+.profile-pic {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 1rem;
+}

@@ -1,0 +1,9 @@
+.center {
+    max-width: 1000px;
+    width: 98%;
+    margin: 10px auto;
+}
+
+.status {
+    vertical-align: text-top;
+}

@@ -1,0 +1,205 @@
+<div class="center">
+	<div class="chat-container" fxLayout="row" fxLayout.md="row wrap" fxLayout.lt-md="column"
+		fxLayoutAlign="space-between start" fxLayoutAlign.lt-md="stretch stretch">
+
+		<div fxFlex="30%" fxFlex.lt-md="100%">
+			<mat-card class="conversation-list">
+				<mat-action-list>
+					<button *ngFor="let conversation of conversations" mat-list-item
+						(click)="changeSelectedConversation(conversation.id)">
+						<mat-icon *ngIf="conversation.scope == 'public'" fontIcon="public"></mat-icon>
+						<mat-icon *ngIf="conversation.scope == 'protected'" fontIcon="shield"></mat-icon>
+						<mat-icon *ngIf="conversation.scope == 'private'" fontIcon="lock"></mat-icon>
+						Conversation {{conversation.id}}
+					</button>
+
+					<mat-divider></mat-divider>
+
+					<button mat-raised-button (click)="openInviteList()">Create new conversation</button>
+					<div *ngIf="inviteListOpen">
+						<section [formGroup]="inviteCheckboxFormGroup">
+							<div *ngFor="let item of userListControl | keyvalue">
+								<p>
+									<mat-checkbox [formControlName]="item.key">{{ getUserNameById(item.key) }}
+									</mat-checkbox>
+								</p>
+							</div>
+						</section>
+						<button mat-raised-button (click)="startConversation()">Validate new conversation.</button>
+					</div>
+
+					<mat-divider></mat-divider>
+
+					<p *ngIf="visibleConversations.length > 0">Other conversations:</p>
+					<div *ngFor="let conversation of visibleConversations">
+						<button mat-list-item (click)="joinConversation(conversation.id, conversation.scope)">
+							<mat-icon *ngIf="conversation.scope == 'public'" fontIcon="public"></mat-icon>
+							<mat-icon *ngIf="conversation.scope == 'protected'" fontIcon="shield"></mat-icon>
+							<mat-icon *ngIf="conversation.scope == 'private'" fontIcon="lock"></mat-icon>
+							Conversation {{conversation.id}}
+						</button>
+						<form>
+							<mat-form-field *ngIf="conversation.scope == 'protected'" appearance="outline">
+								<mat-label for="password">Enter password</mat-label>
+								<input matInput name="password" [formControl]="passwordControl">
+							</mat-form-field>
+						</form>
+					</div>
+					<button mat-raised-button (click)="openBlockList('block')">Block someone</button>
+					<button mat-raised-button (click)="openBlockList('unblock')">Unblock someone</button>
+					<div *ngIf="blockListOpen">
+						<div *ngFor="let user of globalUserList" style="padding: 0 1rem 0 1rem;">
+							<button mat-stroked-button *ngIf="action == 'block'" (click)="blockUser(user.id)">Block
+								{{user.name}}</button>
+							<button mat-stroked-button *ngIf="action == 'unblock'"
+								(click)="unblockUser(user.id)">Unblock {{user.name}}</button>
+							<div *ngIf="action == 'block' || action == 'unblock'"></div>
+						</div>
+					</div>
+				</mat-action-list>
+			</mat-card>
+
+			<div *ngIf="selectedConversation != undefined" class="right-bar">
+				<mat-card class="users-in-conv">
+					<mat-chip-list aria-label="Fish selection">
+						<mat-chip *ngFor="let id of selectedConversation.userRegister" (click)="goToProfile(id)">
+							{{ getUserNameByIdInConv(id, selectedConversation.id) }}
+						</mat-chip>
+					</mat-chip-list>
+				</mat-card>
+				<mat-card class="conversation-actions" fxLayout="column" fxLayout.md="row wrap"
+					fxLayoutAlign="space-between">
+					<button mat-raised-button
+						*ngIf="selectedConversation?.scope == 'public' || userIsOwner || userIsAdmin"
+						(click)="openUserList(selectedConversationId, 'invite')">Invite someone</button>
+					<div *ngIf="action == 'invite' && userListOpen">
+						<div *ngFor="let user of userList" style="padding: 0 1rem 0 1rem;">
+							<button mat-stroked-button color="primary" *ngIf="action == 'invite'"
+								(click)="inviteToConversation(selectedConversationId, user.id)">Invite {{
+								user.name}}</button>
+						</div>
+					</div>
+					<button *ngIf="userIsOwner || userIsAdmin" mat-raised-button
+						(click)="openUserList(selectedConversationId, 'kick')">Kick
+						someone</button>
+					<div *ngIf="action == 'kick' && userListOpen">
+						<div *ngFor="let user of userList" style="padding: 0 1rem 0 1rem;">
+							<button mat-stroked-button color="warn" *ngIf="action == 'kick'"
+								(click)="kickFromConversation(selectedConversationId, user.id)">Kick {{
+								user.name}}</button>
+						</div>
+					</div>
+					<button *ngIf="userIsOwner || userIsAdmin" mat-raised-button
+						(click)="openUserList(selectedConversationId, 'mute')">Mute
+						someone</button>
+					<div *ngIf="action == 'mute' && userListOpen">
+						<div *ngFor="let user of userList" style="padding: 0 1rem 0 1rem;">
+							<button mat-stroked-button color="primary" *ngIf="action == 'mute'"
+								(click)="muteUserInConversation(selectedConversationId, user.id)">Mute {{
+								user.name}}</button>
+						</div>
+					</div>
+					<button *ngIf="userIsOwner || userIsAdmin" mat-raised-button
+						(click)="openUserList(selectedConversationId, 'unmute')">Unmute
+						someone</button>
+					<div *ngIf="action == 'unmute' && userListOpen">
+						<div *ngFor="let user of userList" style="padding: 0 1rem 0 1rem;">
+							<button mat-stroked-button color="primary" *ngIf="action == 'unmute'"
+								(click)="unmuteUserInConversation(selectedConversationId, user.id)">Unmute {{
+								user.name}}</button>
+						</div>
+					</div>
+					<button *ngIf="userIsOwner || userIsAdmin" mat-raised-button
+						(click)="openUserList(selectedConversationId, 'admin')">Make someone
+						admin</button>
+					<div *ngIf="action == 'admin' && userListOpen">
+						<div *ngFor="let user of userList" style="padding: 0 1rem 0 1rem;">
+							<button mat-stroked-button color="warn" *ngIf="action == 'admin'"
+								(click)="makeUserAdmin(selectedConversationId, user.id)">Make {{
+								user.name}} an admin </button>
+						</div>
+					</div>
+					<button *ngIf="userIsOwner || userIsAdmin" mat-raised-button
+						(click)="openUserList(selectedConversationId, 'unadmin')">Remove an
+						admin</button>
+					<div *ngIf="action == 'unadmin' && userListOpen">
+						<div *ngFor="let user of userList" style="padding: 0 1rem 0 1rem;">
+							<button mat-stroked-button color="warn" *ngIf="action == 'unadmin'"
+								(click)="unmakeUserAdmin(selectedConversationId, user.id)">Remove {{
+								user.name}} of admins</button>
+						</div>
+					</div>
+					<button *ngIf="userIsOwner || userIsAdmin" mat-raised-button
+						(click)="editScope(selectedConversationId, 'public')">Make public</button>
+					<button *ngIf="userIsOwner || userIsAdmin" mat-raised-button
+						(click)="editScope(selectedConversationId, 'private')">Make private</button>
+					<button *ngIf="userIsOwner || userIsAdmin" mat-raised-button (click)="openPasswordPrompt()">Make
+						protected</button>
+					<div style="padding: 0 1rem 0 1rem;">
+						<mat-form-field *ngIf="passwordPrompt" appearance="outline">
+							<mat-label *ngIf="passwordPrompt" for="password">Enter password</mat-label>
+							<input matInput *ngIf="passwordPrompt" name="password" [formControl]="passwordControl"
+								maxlength="256">
+						</mat-form-field>
+						<button *ngIf="passwordPrompt" mat-stroked-button
+							(click)="editScope(selectedConversationId, 'protected')">Choose this password</button>	
+					</div>
+					<button mat-raised-button (click)="leaveConversation(selectedConversationId)">Leave
+						conversation</button>
+					<button *ngIf="userIsOwner" mat-raised-button
+						(click)="deleteConversation(selectedConversationId)">Delete
+						conversation</button>
+					<button *ngIf="userIsOwner" mat-raised-button
+						(click)="openUserList(selectedConversationId, 'owner')">Change
+						conversation owner</button>
+					<div *ngIf="action == 'owner' && userListOpen">
+						<div *ngFor="let user of userList" style="padding: 0 1rem 0 1rem;">
+							<button mat-stroked-button color="warn" *ngIf="action == 'owner'"
+								(click)="changeConversationOwner(selectedConversationId, user.id)">Make {{
+								user.name}} the owner</button>
+						</div>
+					</div>
+				</mat-card>
+			</div>
+		</div>
+
+		<div *ngIf="selectedConversation != undefined" class="conversation-content" fxFlex="69%" fxFlex.lt-md="100%">
+			<mat-card style="margin-bottom: 1rem;">
+				<form>
+					<mat-form-field style="width: 100%;" appearance="outline">
+						<mat-label for="message">Enter message</mat-label>
+						<input matInput name="message" [formControl]="messageControl" maxlength="256">
+					</mat-form-field>
+					<button mat-raised-button (click)="submitMessage(selectedConversationId)">Send</button>
+				</form>
+				<button mat-raised-button (click)="openGameInvitePrompt()">Invite to game</button>
+				<div *ngIf="gameInvitePrompt" class="invite-buttons">
+					<button mat-stroked-button
+						(click)="createInviteToGame(selectedConversationId, 'normal')">NORMAL</button>
+					<button mat-stroked-button
+						(click)="createInviteToGame(selectedConversationId, 'hardcore')">HARDCORE</button>
+					<button mat-stroked-button
+						(click)="createInviteToGame(selectedConversationId, 'easy')">EASY</button>
+					<button mat-stroked-button
+						(click)="createInviteToGame(selectedConversationId, 'dual')">DUAL</button>
+				</div>
+			</mat-card>
+			<div class="messages" *ngIf="selectedConversation.messages != undefined">
+				<mat-card *ngFor="let message of selectedConversation.messages.sort(idcomp)" class="message"
+					style="margin-bottom: 0.5rem;">
+					<p *ngIf="message.messageType == 'normal'" style="word-wrap: break-word;">
+						{{message.content}}
+					</p>
+					<div *ngIf="message.messageType == 'invite'">
+						<button *ngIf="message.inviteState == 'waiting'" mat-raised-button
+							(click)="joinGame(message.inviteId)">JOIN GAME</button>
+						<button *ngIf="message.inviteState == 'playing'" mat-raised-button
+							(click)="joinGame(message.inviteId)">SPECTATE GAME</button>
+						<button *ngIf="message.inviteState == 'expired'" mat-raised-button disabled>GAME HAS
+							EXPIRED</button>
+					</div>
+				</mat-card>
+			</div>
+		</div>
+	</div>
+</div>

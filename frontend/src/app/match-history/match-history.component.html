@@ -1,0 +1,22 @@
+
+<div class="center">
+    <mat-card>
+        <mat-card-title>{{user.name}} match history</mat-card-title>
+        <div *ngFor="let match of matchHistory">
+            <mat-card [ngStyle]="isWon(match)?{'background-color':'#3f51b5'} : {'background-color': '#f44336'}" class="match">
+                <div fxLayout="row" fxLayoutAlign="stretch center" fxLayoutGap="0px grid">
+                    <h2 class="match-element" fxFlex="33%">{{getName(match.player1Id)}}</h2>
+                    <img mat-card-sm-image src={{getPlayerAvatar(match.player1Id)}} >
+                    <h2 class="match-element" fxFlex="33%" style="text-align: center;">VS</h2>
+                    <img mat-card-sm-image src={{getPlayerAvatar(match.player2Id)}} >
+                    <h2 class="match-element" fxFlex="33%"  style="text-align: end;">{{getName(match.player2Id)}}</h2>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="stretch center" fxLayoutGap="0px grid">
+                    <h2 class="match-element" fxFlex="33%">{{match.scorePlayer1}}</h2>
+                    <h2 class="match-element" fxFlex="33%" style="text-align: center;">{{getWinStatus(match)}} <br> {{getModeString(match.mode)}}</h2>
+                    <h2 class="match-element" fxFlex="33%" style="text-align: end;">{{match.scorePlayer2}}</h2>
+                </div>
+            </mat-card>
+        </div>
+    </mat-card>
+</div>

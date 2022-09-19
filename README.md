@@ -41,3 +41,17 @@ http://[local_server_ip_address]:3000/api/auth/42/redirect/
 ```shell
 docker-compose up --build
 ```
+
+## A glance of the result
+- loggin interface
+![1663627946788](https://user-images.githubusercontent.com/43440213/191134455-33b1a975-f51f-4c4c-821f-5d5aa2d7b676.jpg)
+- the pong game playing
+![1663628281930](https://user-images.githubusercontent.com/43440213/191134528-37cdcded-64e0-4ab5-a9f3-a93c57b1493f.jpg)
+- score showing
+![1663628306357](https://user-images.githubusercontent.com/43440213/191134560-134d2685-f70c-4d43-aaf2-0a7e93fb0084.jpg)
+- the profile page
+![1663628329910](https://user-images.githubusercontent.com/43440213/191134585-330600ae-9b2f-4a0b-9f6c-65ba635ba4e2.jpg)
+- conversation between normal user and owner of the channel
+![1663628441982](https://user-images.githubusercontent.com/43440213/191134601-fcdcc131-dd9b-4256-872d-2f818689e8a3.jpg)
+- setting page
+![1663628517236](https://user-images.githubusercontent.com/43440213/191134667-afea2379-e5ba-4acc-9254-379458d2e85b.jpg)

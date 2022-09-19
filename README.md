@@ -3,7 +3,7 @@
 ## Objective
 * This project is to create a website that allows users to play the pong game against each other and to chat
 ## Credits
-* This project is done by 3 school 42 students: Vlageard, Tvanbesi & Hzhou
+* This project is done by 3 students of school 42: Vlageard, Tvanbesi & Hzhou
 
 ## Tech stack
 * Programming language: Typescript

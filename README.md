@@ -42,7 +42,7 @@ http://[local_server_ip_address]:3000/api/auth/42/redirect/
 docker-compose up --build
 ```
 
-## A glance of the result
+## Preview
 - loggin interface
 ![1663627946788](https://user-images.githubusercontent.com/43440213/191134455-33b1a975-f51f-4c4c-821f-5d5aa2d7b676.jpg)
 - the pong game playing
